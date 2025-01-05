@@ -6,7 +6,7 @@ const port = process.env.PORT || 3001;
 
 app.get('/ping', async (req, res) => {
   res.send('Pong from Server 2');
-  setTimeout(()=>{ callback()},500);
+  setTimeout(()=>{ callback()},5000);
 });
 
 
