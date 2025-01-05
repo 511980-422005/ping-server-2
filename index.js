@@ -11,7 +11,7 @@ app.get('/ping', async (req, res) => {
 
 
 (async () => {
-   await fetch('http://localhost:3000/ping')
+   await fetch('https://ping-server-1.onrender.com/ping')
      .then((res) => {
        if (res.ok) {
          console.log('Server 2 is responding:', res.status);
@@ -28,20 +28,20 @@ app.get('/ping', async (req, res) => {
 
 
  function callback() {
- fetch('http://localhost:3000/ping')
-    .then((res) => {
-      if (res.ok) {
-        console.log('Server 2 is responding:', res.status);
-      } else {
-        console.log('Server 2 responded with an error:', res.status);
-      }
-    })
-    .catch((err) => {
-      console.error('Server 2 is not responding:', err.message);
-    });
+ fetch('https://ping-server-1.onrender.com/ping')
+   .then((res) => {
+     if (res.ok) {
+       console.log('Server 2 is responding:', res.status);
+     } else {
+       console.log('Server 2 responded with an error:', res.status);
+     }
+   })
+   .catch((err) => {
+     console.error('Server 2 is not responding:', err.message);
+   });
 }
   
- app.use((req,res)=>res.send("Hello from server 1"));
+ app.use((req,res)=>res.send("Hello from server 2"));
 
 
 app.listen(port, () => {
