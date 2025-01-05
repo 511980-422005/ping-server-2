@@ -14,13 +14,13 @@ app.get('/ping', async (req, res) => {
    await fetch('https://ping-server-1.onrender.com/ping')
      .then((res) => {
        if (res.ok) {
-         console.log('Server 2 is responding:', res.status);
+         console.log('Server 1 is responding:', res.status);
        } else {
-         console.log('Server 2 responded with an error:', res.status);
+         console.log('Server 1 responded with an error:', res.status);
        }
      })
      .catch((err) => {
-       console.error('Server 2 is not responding:', err.message);
+       console.error('Server 1 is not responding:', err.message);
      });
 })()
 
@@ -31,13 +31,13 @@ app.get('/ping', async (req, res) => {
  fetch('https://ping-server-1.onrender.com/ping')
    .then((res) => {
      if (res.ok) {
-       console.log('Server 2 is responding:', res.status);
+       console.log('Server 1 is responding:', res.status);
      } else {
-       console.log('Server 2 responded with an error:', res.status);
+       console.log('Server 1 responded with an error:', res.status);
      }
    })
    .catch((err) => {
-     console.error('Server 2 is not responding:', err.message);
+     console.error('Server 1 is not responding:', err.message);
    });
 }
   
