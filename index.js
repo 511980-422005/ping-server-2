@@ -24,6 +24,9 @@ app.get('/ping', async (req, res) => {
          console.log('Server 1 is responding:', res.status);
        } else {
          console.log('Server 1 responded with an error:', res.status);
+          setTimeout(() => {
+            callback();
+          }, 10000);
        }
      })
      .catch((err) => {
@@ -35,6 +38,7 @@ app.get('/ping', async (req, res) => {
 
 
  function callback() {
+  resolve=true
  fetch('https://server.markethealers.com/ping')
    .then((res) => {
      if (res.ok) {
