@@ -3,18 +3,22 @@ const express = require('express');
 const fetch = require('node-fetch');
 const app = express();
 const port = process.env.PORT || 3001;
-
+let resolve=false;
 app.get('/ping', async (req, res) => {
     console.log('Pong Pong Server 2');
   res.send('Pong from Server 2');
+  if(resolve==true){
+    resolve=false;
   setTimeout(() => {
     callback();
   }, 300000);
+  }
 });
 
 
 (async () => {
-   await fetch('https://ping-server-1.onrender.com/ping')
+  resolve=true
+   await fetch('https://server.markethealers.com/ping')
      .then((res) => {
        if (res.ok) {
          console.log('Server 1 is responding:', res.status);
@@ -31,7 +35,7 @@ app.get('/ping', async (req, res) => {
 
 
  function callback() {
- fetch('https://ping-server-1.onrender.com/ping')
+ fetch('https://server.markethealers.com/ping')
    .then((res) => {
      if (res.ok) {
        console.log('Server 1 is responding:', res.status);
