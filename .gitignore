@@ -2,6 +2,7 @@
 /node_modules/
 node_modules/
 .env
+/.env
 # Logs
 *.log 
 # Operating System files
