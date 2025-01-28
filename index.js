@@ -9,7 +9,9 @@ const signup = require('./src/router/signup');
 const app = express();
 const ping_pong = require('./src/router/ping_pong')
 const allowedOrigins = [
-  'http://localhost:3000', 
+  'http://localhost:3000',
+  'https://blog-app-home.vercel.app',
+  'https://blog-app-auth-client.vercel.app',
 ];
 
 app.use(helmet());
