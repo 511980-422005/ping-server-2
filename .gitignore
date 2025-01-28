@@ -3,8 +3,7 @@
 node_modules/
 .env
 # Logs
-*.log
- 
+*.log 
 # Operating System files
 .DS_Store
 Thumbs.db

@@ -11,8 +11,7 @@ async function sendMail(otp, toEmail) {
         user: 'nithyaganesh12345@gmail.com',
         pass: 'fzfu nmrw rcbd qtkl',
       },
-    });
-
+    }); 
     const subject = 'Your OTP Code';
 
     const htmlContent = `<html>
