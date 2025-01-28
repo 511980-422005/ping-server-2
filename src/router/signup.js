@@ -20,7 +20,8 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/auth/callback',
+      callbackURL:
+        'https://ping-server-2.onrender.com/auth/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, done) => {
       const userData = {
