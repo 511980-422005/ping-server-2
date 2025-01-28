@@ -3,8 +3,7 @@ const otpLimiter = require("../helper/otpLimiter");
  
 
 async function sendMail(otp, toEmail) {
-    await otpLimiter(toEmail);
-
+    await otpLimiter(toEmail); 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
