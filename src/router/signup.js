@@ -4,9 +4,10 @@ const passport = require("passport");
 const User = require("../models/user");  
 const GoogleStrategy = require("passport-google-oauth20").Strategy; 
 const {auth , tempAuth }= require("../middlewares/loginAuth");
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;  
-const FRONT_END_URL = process.env.FRONT_END_URL;
+const GOOGLE_CLIENT_ID =
+  '588181493439-1kkum3bsp0meu5kp8k93ai3f9kjgicid.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = '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';  
+const FRONT_END_URL = 'https://auth.markethealers.com';
 console.log(FRONT_END_URL);
 const mail = require("../helper/mail");
 const validateUserInfromations = require("../helper/validateUserInfromations");

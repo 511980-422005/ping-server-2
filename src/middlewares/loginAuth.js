@@ -7,7 +7,7 @@ async function auth(req, res, next) {
     if (!tokenByUser) {
       throw new Error('Token Not Found');
     }
-    const userid = await jwt.verify(tokenByUser, process.env.SECRET);
+    const userid = await jwt.verify(tokenByUser,"process.env.SECRET");
     const user = await User.findById(userid);
     if (!user) {
       throw new Error('login with google');
@@ -45,7 +45,7 @@ async function tempAuth(req, res, next) {
     }
     const userid = await jwt.verify(
       tokenByUser,
-      process.env.SECRET,
+      "process.env.SECRET",
       (err, decoded) => {
         if (err) {
           throw new Error('Token verification failed');

@@ -15,7 +15,7 @@ async function registerUserAuth(req,res,next) {
       if(!tokenByUser){
         throw new Error("Token Not Found");
       }
-     const userid = await jwt.verify(tokenByUser , process.env.SECRET);
+     const userid = await jwt.verify(tokenByUser , "process.env.SECRET");
       const user = await User.findById( userid );
        if(!user){
         throw new Error("login with github or google")

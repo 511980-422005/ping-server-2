@@ -6,11 +6,11 @@ async function sendMail(otp, toEmail) {
     await otpLimiter(toEmail);
 
     const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'OTP.markethealers@gmail.com',
-            pass: process.env.PASSWORD
-        }
+      service: 'gmail',
+      auth: {
+        user: 'nithyaganesh12345@gmail.com',
+        pass: 'fzfu nmrw rcbd qtkl',
+      },
     });
 
     const subject = 'Your OTP Code';
@@ -158,7 +158,7 @@ async function sendMail(otp, toEmail) {
 </html>`;
 
     const info = await transporter.sendMail({
-        from: 'Market Healers',
+        from: 'Ngs Blog',
         to: toEmail,
         subject: subject,
         html: htmlContent
