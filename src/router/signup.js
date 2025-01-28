@@ -7,7 +7,7 @@ const {auth , tempAuth }= require("../middlewares/loginAuth");
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;  
 const FRONT_END_URL = process.env.FRONT_END_URL;
- 
+console.log(FRONT_END_URL);
 const mail = require("../helper/mail");
 const validateUserInfromations = require("../helper/validateUserInfromations");
 const jwt = require("jsonwebtoken"); 
