@@ -15,7 +15,7 @@ const allowedOrigins = [
 ];
 
 app.use(helmet());
-use(ping_pong);
+app.use(ping_pong);
 app.use(
   cors({
     origin: (origin, callback) => {

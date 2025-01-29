@@ -1,12 +1,12 @@
  
 const  ping_pong = require('express').Router();
 const fetch = require('node-fetch'); 
-let resolve=false;
+let resolve=true;
 ping_pong.get('/ping', async (req, res) => {
     console.log('Pong Pong Server 2');
   res.send('Pong from Server 2');
   if(resolve==true){
-    resolve=false;
+    resolve=true;
   setTimeout(() => { 
     callback();
   }, 300000);
