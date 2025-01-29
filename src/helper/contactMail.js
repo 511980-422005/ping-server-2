@@ -73,7 +73,7 @@ async function sendMailToUser(email, name) {
             <h2>Thank You, ${name}!</h2>
             <p>We appreciate your message. Our team will get back to you soon!</p>
             <p>Meanwhile, explore our latest blog posts at <a href="https://blog-app-home.vercel.app/" target="_blank">Ng's Blog</a>.</p>
-        </div>
+   </div>
         <div class="footer">
             <p>Ng's Blog | Inspiring Writers Worldwide</p>
         </div>
