@@ -48,7 +48,6 @@ ping_pong.get('/ping', async (req, res) => {
      console.error('Server 1 is not responding:', err.message);
    });
 }
-  
- ping_pong.use((req,res)=>res.send("Hello from server 2"));
+   
 
  module.exports= ping_pong;

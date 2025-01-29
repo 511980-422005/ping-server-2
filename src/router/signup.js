@@ -153,7 +153,7 @@ signup.post('/auth/auth/verifyotp', async (req, res) => {
 
 //this is the api with takes email and imput and validats it and send a otp to that email and saves the otp in the clients machine
 //as jwt token for verification purpose seen in above api
-//auth/Blog
+//auth/Blog 
 signup.post('/auth/auth/Blog', async (req, res) => {
   try {
     let { email } = req.body;
