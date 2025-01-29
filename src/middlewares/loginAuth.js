@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 async function auth(req, res, next) {
+  const tokenByUser = req.cookies?.token;
   try {
-    const tokenByUser = req.cookies?.token;
     if (!tokenByUser) {
       throw new Error('Token Not Found');
     }
@@ -18,6 +18,7 @@ async function auth(req, res, next) {
         secure: true,
         sameSite: 'None',
       });
+ 
       res.redirect(
         `/auth/newUserInfo?fullname=${user.fullName}&email=${user.email}&platform=${user.platform}&profileUrl=${user.profileUrl}`
       );
@@ -32,6 +33,8 @@ async function auth(req, res, next) {
       next();
     }
   } catch (err) {
+      console.log('yesyes');
+
     res.redirect(`/auth/userAuth`);
   }
 }

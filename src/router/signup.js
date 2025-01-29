@@ -101,8 +101,7 @@ signup.get('/auth/authCheck', async (req, res) => {
     } else {
       throw new Error('Failed');
     }
-  } catch (err) {
-    console.error('down' + err.message);
+  } catch (err) { 
     res.status(400).send('unSuccessful');
   }
 });

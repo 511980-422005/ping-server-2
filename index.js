@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const connectToDB = require('./src/config/database'); 
 const signup = require('./src/router/signup'); 
+const blog = require('./src/router/blog');
 const app = express();
 const ping_pong = require('./src/router/ping_pong')
 const allowedOrigins = [
@@ -39,9 +40,10 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser()); 
-app.use(ping_pong);
+app.use(blog);
 app.use(contact);
 app.use(signup);
+app.use(ping_pong);
 
 app.use((req, res) => {
   res.status(404).json({ error: '143 Page not found' });
