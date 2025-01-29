@@ -60,8 +60,7 @@ async function tempAuth(req, res, next) {
       throw new Error('Login with  Google');
     }
 
-    req.user = user;
-    req.user = user;
+    req.user = user; 
     const token = await user.getJWT();
     res.cookie('token', token, {
       httpOnly: true,

@@ -2,7 +2,7 @@ const User = require("../models/user");
 
 async function validateUserInfromations(fullName, username, password, platform, email) {
     const user = await User.findOne({ platform, email });
-    if (!user) throw new Error("User Not Found");
+     
 
     if (user.userName && user.fullName && user.password) throw new Error("User Already Registered");
 

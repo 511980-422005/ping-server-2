@@ -200,7 +200,7 @@ signup.post('/auth/signupSuccessful', tempAuth, async (req, res) => {
     let { fullName, userName, password, platform, email } = req.body;
     const user = req.user;
     if (!user) {
-      throw new Error('user  Not Found...');
+      throw new Error('user  Not Found tk');
     }
 
     await validateUserInfromations(
