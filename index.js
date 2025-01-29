@@ -13,9 +13,9 @@ const allowedOrigins = [
   'https://blog-app-home.vercel.app',
   'https://blog-app-auth-client.vercel.app',
 ];
-
+const contact = require('./src/router/contact');
 app.use(helmet());
-app.use(ping_pong);
+// app.use(ping_pong);
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -40,6 +40,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser()); 
+app.use(contact);
 app.use(signup);
 
 app.use((req, res) => {

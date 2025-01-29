@@ -1,7 +1,7 @@
 const contact = require('express').Router();
-const { sendMailToUser, sendMailToMh } = require('./helper/contactMail');
+const { sendMailToUser, sendMailToMh } = require('../helper/contactMail');
 contact.post('/contact', async (req, res) => {
-  try {
+  try { 
     const { name, message, email } = req.body;
     if (!isEmail(email)) {
       throw new Error('Invalid email');
