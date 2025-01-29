@@ -135,8 +135,8 @@ signup.post('/auth/auth/verifyotp', async (req, res) => {
     };
 
     const newUser = new User(userData);
-    token = await newUser.getJWT();
-    //console.log("token send");
+    token = await newUser.getJWT(); 
+     
 
     res.cookie('token', token, {
       httpOnly: true,
