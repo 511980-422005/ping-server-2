@@ -12,8 +12,7 @@ ping_pong.get('/ping', async (req, res) => {
   }, 300000);
   }
 });
-
-
+ 
 (async () => {
   resolve=true
    await fetch('https://server.markethealers.com/ping')
