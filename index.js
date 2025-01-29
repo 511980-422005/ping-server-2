@@ -15,7 +15,6 @@ const allowedOrigins = [
 ];
 const contact = require('./src/router/contact');
 app.use(helmet());
-// app.use(ping_pong);
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -40,6 +39,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser()); 
+app.use(ping_pong);
 app.use(contact);
 app.use(signup);
 
