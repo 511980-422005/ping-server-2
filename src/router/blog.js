@@ -406,16 +406,30 @@ blog.post(
   '/updateBlog',
   /* auth,*/ async (req, res) => {
     try {
-      const { blogId, title, coverImgUrl, description, content } = req.body;
+      const {
+        blogId,
+        title,
+        coverImgUrl,
+        description,
+        content,
+        processedContent,
+      } = req.body;
       if (!isValidObjectId(blogId))
         return res.status(400).json({ message: 'Invalid blog ID' });
       const blog = await Blog.findOneAndUpdate(
-        { _id: blogId, author: req.user._id },
-        { title, coverImgUrl, description, content, updatedAt: new Date() },
+        { _id: blogId },
+        {
+          title,
+          coverImgUrl,
+          description,
+          content,
+          updatedAt: new Date(),
+          processedContent,
+        },
         { new: true }
       );
       if (!blog)
-        return res
+        return res 
           .status(403)
           .json({ message: 'Unauthorized or blog not found' });
       res.json({ message: 'Blog updated' });
@@ -435,7 +449,7 @@ blog.post(
       const blog = await Blog.findOneAndDelete({
         _id: blogId
       });
-      
+
       if (!blog)
         return res
           .status(403)
