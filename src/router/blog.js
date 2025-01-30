@@ -244,7 +244,7 @@ blog.get('/getAllBlogs', async (req, res) => {
   try {
     const blogs = await Blog.find(
       {},
-      '_id title description likes coverImgUrl updatedAt'
+      '_id title description likes coverImgUrl updatedAt author'
     );
     res.json(blogs);
   } catch (e) {
@@ -288,7 +288,13 @@ blog.post('/createBlog', auth, async (req, res) => {
       coverImgUrl,
       description,
       content,
-      author: req.user._id,
+      author: [ 
+        {
+          UserId: req.user._id,
+          fullName: req.user.fullName,
+          userName: req.user.userName,
+          profileUrl: req.user.profileUrl,
+        }], 
       comments: [],
       likes: [],
       createdAt: new Date(),

@@ -4,7 +4,14 @@ const blogSchema = new mongoose.Schema({
   title: { type: String },
   coverImgUrl: { type: String },
   description: { type: String },
-  author: { type: String },
+  author: [
+    {
+      UserId: String,
+      fullName: String,
+      userName: String,
+      profileUrl: String,
+    }
+  ],
   content: { type: String },
   processedContent: { type: String },
   comments: [
