@@ -67,7 +67,7 @@
 
 // module.exports=blog;
 
-
+//server : https://ping-server-2.onrender.com
 
 // **Postman Test Cases for Blog API**
 
@@ -247,6 +247,14 @@ blog.get('/getAllBlogs', async (req, res) => {
       '_id title description likes coverImgUrl updatedAt'
     );
     res.json(blogs);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+blog.get('/getMyInfo',auth, async (req, res) => {
+  try { 
+    res.json(req.user);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
