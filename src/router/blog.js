@@ -314,16 +314,22 @@ blog.post('/addLikeBlog', auth, async (req, res) => {
       return res.status(400).json({ message: 'Invalid blog ID' });
     const blog = await Blog.findById(blogId);
     if (!blog) return res.status(404).json({ message: 'Blog not found' });
-    if (!blog.likes.includes(req.user._id)) {
-      blog.likes.push(req.user._id);
+    const userId = req.user._id;
+
+    if (blog.likes.includes(userId)) {
+      blog.likes = blog.likes.filter((id) => !id.equals(userId));
       await blog.save();
-      return res.json({ message: 'Liked' });
+      return res.json({ message: 'Like removed' });
     }
-    res.json({ message: 'Already liked' });
+
+    blog.likes.push(userId);
+    await blog.save();
+    res.json({ message: 'Liked' });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 });
+
 
 blog.post('/addCommentBlog', auth, async (req, res) => {
   try {
