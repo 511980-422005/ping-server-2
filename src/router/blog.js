@@ -298,12 +298,14 @@ blog.post(
   '/createBlog',
   /* auth,*/ async (req, res) => {
     try {
-      const { title, coverImgUrl, description, content } = req.body;
+      const { title, coverImgUrl, description, content, processedContent } =
+        req.body;
       if (!title || !description || !content)
         return res.status(400).json({ message: 'Missing fields' });
       const newBlog = new Blog({
         title,
         coverImgUrl,
+        processedContent,
         description,
         content,
         author: [
