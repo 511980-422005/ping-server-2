@@ -238,7 +238,7 @@ const mongoose = require('mongoose');
 const { isValidObjectId } = mongoose;
 const User = require('../models/user');
 blog.use(async (req, res, next) => {
-  const user = await User.findById('6799d53cdd58143deca6a563'); 
+  const user = await User.findById('6799d53cdd58143deca6a563');
   req.user = user;
   next();
 });
@@ -388,11 +388,13 @@ blog.post(
   /* auth,*/ async (req, res) => {
     try {
       const { blogId, commentId } = req.body;
-      if (!isValidObjectId(blogId))
-        return res.status(400).json({ message: 'Invalid blog ID' });
       const blog = await Blog.findById(blogId);
       if (!blog) return res.status(404).json({ message: 'Blog not found' });
-      blog.comments = blog.comments.filter((c, i) => i !== commentId);
+      
+      blog.comments = blog.comments.filter(
+        (c) => new Date(c.createdAt).getTime() !== new Date(commentId).getTime()
+      );
+
       await blog.save();
       res.json({ message: 'Comment deleted' });
     } catch (e) {
