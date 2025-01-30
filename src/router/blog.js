@@ -254,7 +254,12 @@ blog.get('/getAllBlogs', async (req, res) => {
 
 blog.get('/getMyInfo',auth, async (req, res) => {
   try { 
-    res.json(req.user);
+    res.json({
+      UserId: req.user._id,
+      fullName: req.user.fullName,
+      userName: req.user.userName,
+      profileUrl: req.user.profileUrl,
+    });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
