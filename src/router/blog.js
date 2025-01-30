@@ -243,6 +243,32 @@ blog.use(async (req, res, next) => {
   next();
 });
 
+blog.post(
+  '/addLikeBlog',
+  /* auth,*/ async (req, res) => {
+    try {
+      const { blogId } = req.body;
+      if (!isValidObjectId(blogId))
+        return res.status(400).json({ message: 'Invalid blog ID' });
+      const blog = await Blog.findById(blogId);
+      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      const userId = req.user._id;
+
+      if (blog.likes.includes(userId)) {
+        blog.likes = blog.likes.filter((id) => !id.equals(userId));
+        await blog.save();
+        return res.json({ message: 'Like removed' });
+      }
+
+      blog.likes.push(userId);
+      await blog.save();
+      res.json({ message: 'Liked' });
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  }
+);
+
 blog.get('/getAllBlogs', async (req, res) => {
   try {
     const blogs = await Blog.find(
@@ -318,32 +344,6 @@ blog.post('/getOneFullBlog', async (req, res) => {
 });
 
 blog.post(
-  '/addLikeBlog',
-  /* auth,*/ async (req, res) => {
-    try {
-      const { blogId } = req.body;
-      if (!isValidObjectId(blogId))
-        return res.status(400).json({ message: 'Invalid blog ID' });
-      const blog = await Blog.findById(blogId);
-      if (!blog) return res.status(404).json({ message: 'Blog not found' });
-      const userId = req.user._id;
-
-      if (blog.likes.includes(userId)) {
-        blog.likes = blog.likes.filter((id) => !id.equals(userId));
-        await blog.save();
-        return res.json({ message: 'Like removed' });
-      }
-
-      blog.likes.push(userId);
-      await blog.save();
-      res.json({ message: 'Liked' });
-    } catch (e) {
-      res.status(500).json({ message: e.message });
-    }
-  }
-);
-
-blog.post(
   '/addCommentBlog',
   /* auth,*/ async (req, res) => {
     try {
@@ -390,7 +390,7 @@ blog.post(
       const { blogId, commentId } = req.body;
       const blog = await Blog.findById(blogId);
       if (!blog) return res.status(404).json({ message: 'Blog not found' });
-      
+
       blog.comments = blog.comments.filter(
         (c) => new Date(c.createdAt).getTime() !== new Date(commentId).getTime()
       );
