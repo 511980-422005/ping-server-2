@@ -452,7 +452,7 @@ signup.get('/auth', auth, (req, res) => {
 
 //redirect user to home oage if and only the user is authorized
 signup.get('/auth/home', auth, async (req, res) => {
-  res.redirect('https://blog-app-home.vercel.app/Home');
+  res.redirect('https://blog-app-home.vercel.app/home');
 });
 
 module.exports = signup;
