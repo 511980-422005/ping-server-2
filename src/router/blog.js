@@ -271,10 +271,7 @@ blog.post(
 
 blog.get('/getAllBlogs', async (req, res) => {
   try {
-    const blogs = await Blog.find(
-      {},
-      '_id title description likes coverImgUrl updatedAt author'
-    );
+    const blogs = await Blog.find({});
     res.json(blogs);
   } catch (e) {
     res.status(500).json({ message: e.message });
