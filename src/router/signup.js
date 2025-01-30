@@ -130,7 +130,7 @@ signup.post('/auth/auth/verifyotp', async (req, res) => {
       email: bothAreSame.email,
       platform: 'Blog',
       profileUrl:
-        'https://www.wizbrand.com/tutorials/wp-content/uploads/2021/12/featured.jpg',
+        'https://cdn3.iconfinder.com/data/icons/profile-and-cv/100/profile_account_user-05-512.png',
     };
 
     const newUser = new User(userData);
@@ -196,7 +196,8 @@ signup.post('/auth/auth/Blog', async (req, res) => {
 
 signup.post('/auth/signupSuccessful', tempAuth, async (req, res) => {
   try {
-    let { fullName, userName, password, platform, email } = req.body;
+    let { fullName, userName, password, platform, email, profileUrl } =
+      req.body;
     const user = req.user;
     if (!user) {
       throw new Error('user  Not Found tk');
@@ -207,7 +208,7 @@ signup.post('/auth/signupSuccessful', tempAuth, async (req, res) => {
       userName,
       password,
       platform,
-      email
+      email 
     );
 
     if (user) {
@@ -216,9 +217,10 @@ signup.post('/auth/signupSuccessful', tempAuth, async (req, res) => {
       }
 
       const updatedStatus = await User.findByIdAndUpdate(user._id, {
-        fullName: fullName,
-        userName: userName,
-        password: password,
+        fullName,
+        userName,
+        password,
+        profileUrl,
       });
       if (!updatedStatus) {
         throw new Error('User not found or update failed.');
