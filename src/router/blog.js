@@ -271,19 +271,6 @@ blog.get(
   }
 );
 
-blog.post('/getOneFullBlog', async (req, res) => {
-  try {
-    const { blogId } = req.body;
-    if (!isValidObjectId(blogId))
-      return res.status(400).json({ message: 'Invalid blog ID' });
-    const blog = await Blog.findById(blogId);
-    if (!blog) return res.status(404).json({ message: 'Blog not found' });
-    res.json(blog);
-  } catch (e) {
-    res.status(500).json({ message: e.message });
-  }
-});
-
 blog.post(
   '/createBlog',
   /* auth,*/ async (req, res) => {
@@ -316,6 +303,19 @@ blog.post(
     }
   }
 );
+
+blog.post('/getOneFullBlog', async (req, res) => {
+  try {
+    const { blogId } = req.body;
+    if (!isValidObjectId(blogId))
+      return res.status(400).json({ message: 'Invalid blog ID' });
+    const blog = await Blog.findById(blogId);
+    if (!blog) return res.status(404).json({ message: 'Blog not found' });
+    res.json(blog);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
 
 blog.post(
   '/addLikeBlog',
@@ -353,12 +353,30 @@ blog.post(
       const blog = await Blog.findById(blogId);
       if (!blog) return res.status(404).json({ message: 'Blog not found' });
       blog.comments.push({
-        user: req.user._id,
+        user: [
+          {
+            UserId: req.user._id,
+            fullName: req.user.fullName,
+            userName: req.user.userName,
+            profileUrl: req.user.profileUrl,
+          },
+        ],
         text: message,
         createdAt: new Date(),
       });
       await blog.save();
-      res.json({ message: 'Comment added' });
+      res.json({
+        user: [
+          {
+            UserId: req.user._id,
+            fullName: req.user.fullName,
+            userName: req.user.userName,
+            profileUrl: req.user.profileUrl,
+          },
+        ],
+        text: message,
+        createdAt: new Date(),
+      });
     } catch (e) {
       res.status(500).json({ message: e.message });
     }

@@ -10,13 +10,20 @@ const blogSchema = new mongoose.Schema({
       fullName: String,
       userName: String,
       profileUrl: String,
-    }
+    },
   ],
   content: { type: String },
   processedContent: { type: String },
   comments: [
     {
-      user: String,
+      user: [
+        {
+          UserId: String,
+          fullName: String,
+          userName: String,
+          profileUrl: String,
+        },
+      ],
       text: String,
       createdAt: { type: Date, default: Date.now },
     },
