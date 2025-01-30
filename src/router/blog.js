@@ -231,14 +231,17 @@
 // ]
 // ```
 
-
-
-
 const blog = require('express').Router();
 const Blog = require('../models/blog');
 const { auth } = require('../middlewares/loginAuth');
 const mongoose = require('mongoose');
 const { isValidObjectId } = mongoose;
+const User = require('../models/user');
+blog.use(async (req, res, next) => {
+  const user = await User.findById('6799d53cdd58143deca6a563'); 
+  req.user = user;
+  next();
+});
 
 blog.get('/getAllBlogs', async (req, res) => {
   try {
@@ -252,18 +255,21 @@ blog.get('/getAllBlogs', async (req, res) => {
   }
 });
 
-blog.get('/getMyInfo',auth, async (req, res) => {
-  try { 
-    res.json({
-      UserId: req.user._id,
-      fullName: req.user.fullName,
-      userName: req.user.userName,
-      profileUrl: req.user.profileUrl,
-    });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+blog.get(
+  '/getMyInfo',
+  /* auth,*/ async (req, res) => {
+    try {
+      res.json({
+        UserId: req.user._id,
+        fullName: req.user.fullName,
+        userName: req.user.userName,
+        profileUrl: req.user.profileUrl,
+      });
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
   }
-});
+);
 
 blog.post('/getOneFullBlog', async (req, res) => {
   try {
@@ -278,139 +284,160 @@ blog.post('/getOneFullBlog', async (req, res) => {
   }
 });
 
-blog.post('/createBlog', auth, async (req, res) => {
-  try {
-    const { title, coverImgUrl, description, content } = req.body;
-    if (!title || !description || !content)
-      return res.status(400).json({ message: 'Missing fields' });
-    const newBlog = new Blog({
-      title,
-      coverImgUrl,
-      description,
-      content,
-      author: [ 
-        {
-          UserId: req.user._id,
-          fullName: req.user.fullName,
-          userName: req.user.userName,
-          profileUrl: req.user.profileUrl,
-        }], 
-      comments: [],
-      likes: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-    await newBlog.save();
-    res.status(201).json({ message: 'Blog created' });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
-  }
-});
-
-blog.post('/addLikeBlog', auth, async (req, res) => {
-  try {
-    const { blogId } = req.body;
-    if (!isValidObjectId(blogId))
-      return res.status(400).json({ message: 'Invalid blog ID' });
-    const blog = await Blog.findById(blogId);
-    if (!blog) return res.status(404).json({ message: 'Blog not found' });
-    const userId = req.user._id;
-
-    if (blog.likes.includes(userId)) {
-      blog.likes = blog.likes.filter((id) => !id.equals(userId));
-      await blog.save();
-      return res.json({ message: 'Like removed' });
+blog.post(
+  '/createBlog',
+  /* auth,*/ async (req, res) => {
+    try {
+      const { title, coverImgUrl, description, content } = req.body;
+      if (!title || !description || !content)
+        return res.status(400).json({ message: 'Missing fields' });
+      const newBlog = new Blog({
+        title,
+        coverImgUrl,
+        description,
+        content,
+        author: [
+          {
+            UserId: req.user._id,
+            fullName: req.user.fullName,
+            userName: req.user.userName,
+            profileUrl: req.user.profileUrl,
+          },
+        ],
+        comments: [],
+        likes: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      await newBlog.save();
+      res.status(201).json({ message: 'Blog created' });
+    } catch (e) {
+      res.status(500).json({ message: e.message });
     }
-
-    blog.likes.push(userId);
-    await blog.save();
-    res.json({ message: 'Liked' });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
   }
-});
+);
 
+blog.post(
+  '/addLikeBlog',
+  /* auth,*/ async (req, res) => {
+    try {
+      const { blogId } = req.body;
+      if (!isValidObjectId(blogId))
+        return res.status(400).json({ message: 'Invalid blog ID' });
+      const blog = await Blog.findById(blogId);
+      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      const userId = req.user._id;
 
-blog.post('/addCommentBlog', auth, async (req, res) => {
-  try {
-    const { blogId, message } = req.body;
-    if (!isValidObjectId(blogId) || !message)
-      return res.status(400).json({ message: 'Invalid input' });
-    const blog = await Blog.findById(blogId);
-    if (!blog) return res.status(404).json({ message: 'Blog not found' });
-    blog.comments.push({
-      user: req.user._id,
-      text: message,
-      createdAt: new Date(),
-    });
-    await blog.save();
-    res.json({ message: 'Comment added' });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+      if (blog.likes.includes(userId)) {
+        blog.likes = blog.likes.filter((id) => !id.equals(userId));
+        await blog.save();
+        return res.json({ message: 'Like removed' });
+      }
+
+      blog.likes.push(userId);
+      await blog.save();
+      res.json({ message: 'Liked' });
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
   }
-});
+);
 
-blog.post('/deleteCommentBlog', auth, async (req, res) => {
-  try {
-    const { blogId, commentId } = req.body;
-    if (!isValidObjectId(blogId))
-      return res.status(400).json({ message: 'Invalid blog ID' });
-    const blog = await Blog.findById(blogId);
-    if (!blog) return res.status(404).json({ message: 'Blog not found' });
-    blog.comments = blog.comments.filter((c, i) => i !== commentId);
-    await blog.save();
-    res.json({ message: 'Comment deleted' });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+blog.post(
+  '/addCommentBlog',
+  /* auth,*/ async (req, res) => {
+    try {
+      const { blogId, message } = req.body;
+      if (!isValidObjectId(blogId) || !message)
+        return res.status(400).json({ message: 'Invalid input' });
+      const blog = await Blog.findById(blogId);
+      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      blog.comments.push({
+        user: req.user._id,
+        text: message,
+        createdAt: new Date(),
+      });
+      await blog.save();
+      res.json({ message: 'Comment added' });
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
   }
-});
+);
 
-blog.post('/updateBlog', auth, async (req, res) => {
-  try {
-    const { blogId, title, coverImgUrl, description, content } = req.body;
-    if (!isValidObjectId(blogId))
-      return res.status(400).json({ message: 'Invalid blog ID' });
-    const blog = await Blog.findOneAndUpdate(
-      { _id: blogId, author: req.user._id },
-      { title, coverImgUrl, description, content, updatedAt: new Date() },
-      { new: true }
-    );
-    if (!blog)
-      return res
-        .status(403)
-        .json({ message: 'Unauthorized or blog not found' });
-    res.json({ message: 'Blog updated' });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+blog.post(
+  '/deleteCommentBlog',
+  /* auth,*/ async (req, res) => {
+    try {
+      const { blogId, commentId } = req.body;
+      if (!isValidObjectId(blogId))
+        return res.status(400).json({ message: 'Invalid blog ID' });
+      const blog = await Blog.findById(blogId);
+      if (!blog) return res.status(404).json({ message: 'Blog not found' });
+      blog.comments = blog.comments.filter((c, i) => i !== commentId);
+      await blog.save();
+      res.json({ message: 'Comment deleted' });
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
   }
-});
+);
 
-blog.post('/deleteBlog', auth, async (req, res) => {
-  try {
-    const { blogId } = req.body;
-    if (!isValidObjectId(blogId))
-      return res.status(400).json({ message: 'Invalid blog ID' });
-    const blog = await Blog.findOneAndDelete({
-      _id: blogId,
-      author: req.user._id,
-    });
-    if (!blog)
-      return res
-        .status(403)
-        .json({ message: 'Unauthorized or blog not found' });
-    res.json({ message: 'Blog deleted' });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+blog.post(
+  '/updateBlog',
+  /* auth,*/ async (req, res) => {
+    try {
+      const { blogId, title, coverImgUrl, description, content } = req.body;
+      if (!isValidObjectId(blogId))
+        return res.status(400).json({ message: 'Invalid blog ID' });
+      const blog = await Blog.findOneAndUpdate(
+        { _id: blogId, author: req.user._id },
+        { title, coverImgUrl, description, content, updatedAt: new Date() },
+        { new: true }
+      );
+      if (!blog)
+        return res
+          .status(403)
+          .json({ message: 'Unauthorized or blog not found' });
+      res.json({ message: 'Blog updated' });
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
   }
-});
+);
 
-blog.post('/getMyBlogs', auth, async (req, res) => {
-  try {
-    const blogs = await Blog.find({ author: req.user._id });
-    res.json(blogs);
-  } catch (e) {
-    res.status(500).json({ message: e.message });
+blog.post(
+  '/deleteBlog',
+  /* auth,*/ async (req, res) => {
+    try {
+      const { blogId } = req.body;
+      if (!isValidObjectId(blogId))
+        return res.status(400).json({ message: 'Invalid blog ID' });
+      const blog = await Blog.findOneAndDelete({
+        _id: blogId,
+        author: req.user._id,
+      });
+      if (!blog)
+        return res
+          .status(403)
+          .json({ message: 'Unauthorized or blog not found' });
+      res.json({ message: 'Blog deleted' });
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
   }
-});
+);
+
+blog.post(
+  '/getMyBlogs',
+  /* auth,*/ async (req, res) => {
+    try {
+      const blogs = await Blog.find({ author: req.user._id });
+      res.json(blogs);
+    } catch (e) {
+      res.status(500).json({ message: e.message });
+    }
+  }
+);
 
 module.exports = blog;
