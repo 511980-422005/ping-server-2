@@ -433,9 +433,9 @@ blog.post(
       if (!isValidObjectId(blogId))
         return res.status(400).json({ message: 'Invalid blog ID' });
       const blog = await Blog.findOneAndDelete({
-        _id: blogId,
-        author: req.user._id,
+        _id: blogId
       });
+      
       if (!blog)
         return res
           .status(403)
