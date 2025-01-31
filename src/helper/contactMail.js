@@ -50,7 +50,7 @@ async function sendMailToMh(email, name, message) {
 }
 
 async function sendMailToUser(email, name) {
-  const htmlContent = `<!DOCTYPE html>
+ const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -71,15 +71,17 @@ async function sendMailToUser(email, name) {
         </div>
         <div class="content">
             <h2>Thank You, ${name}!</h2>
+            <p>Thanks for subscribing to Ng's Blog! You will get an email when a new blog is added.</p>
             <p>We appreciate your message. Our team will get back to you soon!</p>
             <p>Meanwhile, explore our latest blog posts at <a href="https://blog-app-home.vercel.app/" target="_blank">Ng's Blog</a>.</p>
-   </div>
+        </div>
         <div class="footer">
             <p>Ng's Blog | Inspiring Writers Worldwide</p>
         </div>
     </div>
 </body>
 </html>`;
+
 
   await transporter.sendMail({
     from: 'Ngs Blog',
@@ -88,5 +90,45 @@ async function sendMailToUser(email, name) {
     html: htmlContent,
   });
 }
+async function subscribing(email, name, blog) {
+  const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Blog Post by ${blog}</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; }
+        .email-container { max-width: 600px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; }
+        .header { background-color: #181818; color: gold; text-align: center; padding: 20px; }
+        .content { padding: 20px; }
+        .footer { background-color: #181818; color: white; text-align: center; padding: 10px; }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>Ng's Blog</h1>
+        </div>
+        <div class="content">
+            <h2>Hello, ${name}!</h2>
+            <p>A new blog post has been added by <strong>${blog}</strong>!</p>
+            <p>Check it out now on <a href="https://blog-app-home.vercel.app/" target="_blank">Ng's Blog</a>.</p>
+            <p>Thanks for subscribing! You'll receive updates whenever a new blog is posted.</p>
+        </div>
+        <div class="footer">
+            <p>Ng's Blog | Inspiring Writers Worldwide</p>
+        </div>
+    </div>
+</body>
+</html>`;
 
-module.exports = { sendMailToMh, sendMailToUser };
+  await transporter.sendMail({
+    from: "Ng's Blog",
+    to: email,
+    subject: `New Blog Post by ${blog}`,
+    html: htmlContent,
+  });
+}
+
+module.exports = { sendMailToMh, sendMailToUser, subscribing };

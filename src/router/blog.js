@@ -234,7 +234,7 @@
 const blog = require('express').Router();
 const Blog = require('../models/blog');
 const { auth } = require('../middlewares/loginAuth'); 
-
+const {subscribing} = require('../helper/contactMail');
 blog.use(auth);
 
 blog.post('/addLikeBlog', async (req, res) => {
@@ -306,6 +306,7 @@ blog.post('/createBlog', async (req, res) => {
       updatedAt: new Date(),
     });
     await newBlog.save();
+    subscribing(req.user.email, req.user.fullName, req.user.fullName);
     res.status(201).json({ message: 'Blog created' });
   } catch (e) {
     res.status(500).json({ message: e.message });
