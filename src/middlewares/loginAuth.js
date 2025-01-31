@@ -32,8 +32,7 @@ async function auth(req, res, next) {
       });
       next();
     }
-  } catch (err) {
-      console.log('yesyes');
+  } catch (err) { 
 
     res.redirect(`/auth/userAuth`);
   }
