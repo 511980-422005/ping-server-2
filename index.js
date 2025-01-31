@@ -8,6 +8,8 @@ const connectToDB = require('./src/config/database');
 const signup = require('./src/router/signup'); 
 const blog = require('./src/router/blog');
 const app = express();
+
+app.use(ping_pong);
 const ping_pong = require('./src/router/ping_pong')
 const allowedOrigins = [
   'http://localhost:3000',
@@ -43,7 +45,6 @@ app.use(cookieParser());
 app.use(blog);
 app.use(contact);
 app.use(signup);
-app.use(ping_pong);
 
 app.use((req, res) => {
   res.status(404).json({ error: '143 Page not found' });
