@@ -1,6 +1,7 @@
 const ping_pong = require('express').Router();
 const fetch = require('node-fetch');
 let isPing = false;
+
 ping_pong.get('/ping', async (req, res) => {
   if (isPing == true) {
     isPing = false;
@@ -27,6 +28,14 @@ ping_pong.get('/ping', async (req, res) => {
       console.error('Server 1 is not responding:', err.message);
       callback();
     });
+
+     await fetch('https://server-guard-server.onrender.com/ping')
+       .then((res) => {
+          
+       })
+       .catch((err) => {
+         
+       }); 
 })();
 
 function callback() {
@@ -48,6 +57,13 @@ function callback() {
         callback();
       }, 5 * 60 * 1000);
     });
+    fetch('https://server-guard-server.onrender.com/ping')
+       .then((res) => {
+          
+       })
+       .catch((err) => {
+         
+       }); 
 }
 
 module.exports = ping_pong;
