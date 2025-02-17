@@ -14,7 +14,7 @@ ping_pong.get('/ping', async (req, res) => {
 });
 
 (async () => {
-  await fetch('https://server.markethealers.com/ping')
+   fetch('https://server.markethealers.com/ping')
     .then((res) => {
       if (res.ok) {
         console.log('Server 1 is responding:', res.status);
@@ -29,7 +29,7 @@ ping_pong.get('/ping', async (req, res) => {
       callback();
     });
 
-     await fetch('https://server-guard-server.onrender.com/ping')
+      fetch('https://server-guard-server.onrender.com/ping')
        .then((res) => {
           
        })
