@@ -1,16 +1,15 @@
 {
-  "name": "devtinder",
+  "name": "ping-server-2",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node server-side/src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Nithya Ganesh",
+  "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "express": "^4.21.2",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.7.0"
   }
 }
