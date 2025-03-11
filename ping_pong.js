@@ -57,7 +57,7 @@ function callback() {
         callback();
       }, 5 * 60 * 1000);
     });
-    fetch('https://server-guard-server.onrender.com/ping')
+    fetch('https://zenova-server.onrender.com/ping')
        .then((res) => {
           
        })
