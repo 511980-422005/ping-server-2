@@ -4,6 +4,7 @@ let isPing = false;
 
 const mainServer = 'https://server.markethealers.com';
 const otherServers = [
+  'https://v0-new-project-cckdh8yagwu.vercel.app',
   'https://edubuddy-backend-server.onrender.com',
   'https://server-guard-server.onrender.com',
 ];
