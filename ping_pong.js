@@ -4,6 +4,7 @@ let isPing = false;
 
 const mainServer = 'https://server.markethealers.com';
 const otherServers = [
+  'https://os12345.onrender.com',
   'https://server-guard-server.onrender.com',
   'https://le-crown-interiors-backend.onrender.com',
 ];
