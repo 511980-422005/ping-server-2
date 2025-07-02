@@ -3,11 +3,8 @@ const fetch = require('node-fetch');
 let isPing = false;
 
 const mainServer = 'https://server.markethealers.com';
-const otherServers = [ 
-  'https://server-guard-server.onrender.com',
-  'https://le-crown-interiors-backend.onrender.com',
-  'https://edubuddy-backend-server.onrender.com'
-  ,'https://zenova-server.onrender.com'
+const otherServers = [  
+  'https://le-crown-interiors-backend.onrender.com','https://iverto.onrender.com', 
 ];
 
 ping_pong.get('/ping', async (req, res) => {
