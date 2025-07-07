@@ -4,7 +4,11 @@ let isPing = false;
 
 const mainServer = 'https://server.markethealers.com';
 const otherServers = [  
-  'https://le-crown-interiors-backend.onrender.com','https://iverto.onrender.com', 'https://invetorymanagementsystembyisai.onrender.com'
+  'https://le-crown-interiors-backend.onrender.com',
+  'https://iverto.onrender.com', 
+  'https://invetorymanagementsystembyisai.onrender.com',
+  'https://alkarahm-admin.onrender.com',
+  'https://alkarahm.onrender.com'
 ];
 
 ping_pong.get('/ping', async (req, res) => {
