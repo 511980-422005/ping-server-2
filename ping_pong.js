@@ -8,7 +8,8 @@ const otherServers = [
   'https://iverto.onrender.com', 
   'https://invetorymanagementsystembyisai.onrender.com',
   'https://alkarahm-admin.onrender.com',
-  'https://alkarahm.onrender.com'
+  'https://alkarahm.onrender.com',
+  'https://zenova-server.onrender.com'
 ];
 
 ping_pong.get('/ping', async (req, res) => {
