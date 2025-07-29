@@ -1,6 +1,12 @@
  
 const express = require("express");
 const router = express.Router();
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'https://lanflix.vercel.app',
+  credentials: true
+}));
 
 let BASE_URL = "";
 const TOKEN = "Fks7d29Ds91Aqp3RzXvBcnU83vHslTyq";
