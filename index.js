@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
+
 const ping_pong = require('./ping_pong');
 app.use(ping_pong);
 app.use(require('./local_streaming_helper'));
