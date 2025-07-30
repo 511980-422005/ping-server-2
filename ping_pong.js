@@ -12,7 +12,8 @@ const otherServers = [
   'https://zenova-server.onrender.com',
   'https://www.picloopz.com',
   'https://admin.picloopz.com',
-  'https://picloopz-server.onrender.com'
+  'https://picloopz-server.onrender.com',
+  'https://servermonitoringsystembyng.onrender.com'
 ];
 
 ping_pong.get('/ping', async (req, res) => {
