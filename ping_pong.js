@@ -9,7 +9,10 @@ const otherServers = [
   'https://invetorymanagementsystembyisai.onrender.com',
   'https://alkarahm-admin.onrender.com',
   'https://alkarahm.onrender.com',
-  'https://zenova-server.onrender.com'
+  'https://zenova-server.onrender.com',
+  'https://www.picloopz.com',
+  'https://admin.picloopz.com',
+  'https://picloopz-server.onrender.com'
 ];
 
 ping_pong.get('/ping', async (req, res) => {
