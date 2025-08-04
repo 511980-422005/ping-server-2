@@ -22,10 +22,15 @@ router.post("/saveBaseUrl", auth, (req,res)=>{
   res.send("URL(s) saved successfully");
 });
 
-router.get("/getBaseUrl/:key", auth, (req,res)=>{
+router.get("/getBaseUrl/:key", (req,res)=>{
   const key = req.params.key;
   if(!BASE_URLS[key]) return res.status(404).json({message:"Key not found"});
   res.send(BASE_URLS[key]);
+});
+
+router.get("/BaseUrls", (req,res)=>{
+  const list = Object.entries(BASE_URLS).map(([key,value])=>`<li><strong>${key}</strong>: ${value}</li>`).join("");
+  res.send(`<html><body><ul>${list}</ul></body></html>`);
 });
 
 module.exports = router;
