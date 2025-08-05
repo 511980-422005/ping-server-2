@@ -1,19 +1,11 @@
-const ping_pong = require('express').Router();
+const express = require('express');
+const ping_pong = express.Router();
 const fetch = require('node-fetch');
-let isPing = false;
+const cron = require('node-cron');
 
 const mainServer = 'https://servermonitoringsystembyng.onrender.com';
-const otherServers = [  
-  'https://servermonitoringsystembyng.onrender.com'
-];
 
-ping_pong.get('/ping', async (req, res) => {
-  if (isPing) {
-    isPing = false;
-    setTimeout(() => {
-      pingServers();
-    }, 5 * 60 * 1000);
-  }
+ping_pong.get('/ping', (req, res) => {
   console.log('Pong Pong Server 2');
   res.send('Pong from Server 2');
 });
@@ -23,23 +15,26 @@ const pingServers = () => {
     .then((res) => {
       if (res.ok) {
         console.log(`Main server is responding:`, res.status);
-        isPing = true;
       } else {
-        console.log(`Main server responded with an error:`, res.status);
-        setTimeout(pingServers, 5 * 60 * 1000);
+        console.log(`Main server responded with error:`, res.status);
+        retryAfterDelay();
       }
     })
     .catch((err) => {
       console.error(`Main server is not responding:`, err.message);
-      setTimeout(pingServers, 5 * 60 * 1000);
+      retryAfterDelay();
     });
-  for (const server of otherServers) {
-    fetch(`${server}/ping`).catch(() => {});
-  }
 };
 
-(async () => {
+const retryAfterDelay = () => {
+  console.log('Retrying in 30 seconds...');
+  setTimeout(pingServers, 30 * 1000);
+};
+
+// Schedule every 5 minutes
+cron.schedule('*/5 * * * *', () => {
+  console.log('Scheduled ping started');
   pingServers();
-})();
+});
 
 module.exports = ping_pong;
